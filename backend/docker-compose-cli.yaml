@@ -15,12 +15,14 @@ services:
         extends:
             file: base/docker-compose-base.yaml
             service: orderer.ian.com
-        container_name: orderer.ian.com
+        container_name: orderer.ian.com4
+        dns_search: .
         networks:
             - iannet
 
     peer0.citizen.ian.com:
         container_name: peer0.citizen.ian.com
+        dns_search: .
         extends:
             file: base/docker-compose-base.yaml
             service: peer0.citizen.ian.com
@@ -31,6 +33,7 @@ services:
 
     peer0.identityauthority.ian.com:
         container_name: peer0.identityauthority.ian.com
+        dns_search: .
         extends:
             file: base/docker-compose-base.yaml
             service: peer0.identityauthority.ian.com
@@ -41,6 +44,7 @@ services:
 
     caCitizen:
         container_name: caCitizen
+        dns_search: .
         extends:
             file: base/docker-compose-base.yaml
             service: caCitizen
@@ -49,6 +53,7 @@ services:
 
     caIdentityAuthority:
         container_name: caIdentityAuthority
+        dns_search: .
         extends:
             file: base/docker-compose-base.yaml
             service: caIdentityAuthority
@@ -57,6 +62,7 @@ services:
 
     couchdb.peer0.citizen.ian.com:
         container_name: couchdb.peer0.citizen.ian.com
+        dns_search: .
         image: hyperledger/fabric-couchdb
         environment:
             - COUCHDB_USER=admin
@@ -68,6 +74,7 @@ services:
 
     couchdb.peer0.identityauthority.ian.com:
         container_name: couchdb.peer0.identityauthority.ian.com
+        dns_search: .
         image: hyperledger/fabric-couchdb
         environment:
             - COUCHDB_USER=admin
@@ -79,6 +86,7 @@ services:
 
     cli:
         container_name: cli
+        dns_search: .
         image: hyperledger/fabric-tools:$IMAGE_TAG
         tty: true
         stdin_open: true
