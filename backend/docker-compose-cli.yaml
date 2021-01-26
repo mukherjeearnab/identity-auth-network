@@ -15,7 +15,7 @@ services:
         extends:
             file: base/docker-compose-base.yaml
             service: orderer.ian.com
-        container_name: orderer.ian.com4
+        container_name: orderer.ian.com
         dns_search: .
         networks:
             - iannet
