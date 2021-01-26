@@ -68,7 +68,7 @@ services:
             - COUCHDB_USER=admin
             - COUCHDB_PASSWORD=adminpw
         ports:
-            - "15984:5984"
+            - "5984:5984"
         networks:
             - iannet
 
@@ -80,7 +80,7 @@ services:
             - COUCHDB_USER=admin
             - COUCHDB_PASSWORD=adminpw
         ports:
-            - "16984:5984"
+            - "6984:5984"
         networks:
             - iannet
 
