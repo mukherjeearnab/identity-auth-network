@@ -75,7 +75,7 @@ class App extends Component {
                 <Container maxWidth="sm" spacing={10}>
                     <Grid container spacing={3}>
                         <Grid item xs>
-                            <Link to={"/citizen/viewProfile/" + this.state.profile.UID} className={classes.link}>
+                            <Link to={"/citizen/viewProfile/" + this.state.profile.ID} className={classes.link}>
                                 <Paper className={classes.paper}>View Profile</Paper>
                             </Link>
                         </Grid>
