@@ -9,8 +9,8 @@ mkdir ./channel-artifacts
 cryptogen generate --config=./crypto-config.yaml
 
 echo "Generating channel artifacts and genesis block..."
-configtxgen -profile LawNetOrdererGenesis -outputBlock ./channel-artifacts/genesis.block
-configtxgen -profile LawNetChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID mainchannel
+configtxgen -profile IANOrdererGenesis -outputBlock ./channel-artifacts/genesis.block
+configtxgen -profile IANChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID mainchannel
 
 CURRENT_DIR=$PWD
 cd ./base
