@@ -22,9 +22,7 @@ txhandler = async (user, payload) => {
     const contract = network.getContract("identity_cc");
 
     // Evaluate the specified transaction.
-    const result = await contract.submitTransaction("updateProfile", payload.ID, payload.Name, payload.Address);
-
-    return JSON.parse(result.toString());
+    await contract.submitTransaction("updateProfile", payload.ID, payload.Name, payload.Address);
 };
 
 module.exports = txhandler;
