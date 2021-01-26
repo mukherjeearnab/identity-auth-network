@@ -14,7 +14,7 @@ peer channel create -o orderer.ian.com:7050 -c $CHANNEL_NAME -f ./channel-artifa
 cat log.txt
 
 #peer channel create -o orderer.ian.com:7050 /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/ian.com/orderers/orderer.ian.com/msp/tlscacerts/tlsca.ian.com-cert.pem -c mainchannel -f ./channel-artifacts/channel.tx
-sleep 5
+sleep 10
 echo
 echo "Channel created, joining Citizen..."
 peer channel join -b mainchannel.block
