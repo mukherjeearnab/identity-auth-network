@@ -13,6 +13,7 @@ CORE_PEER_ADDRESS=$PEER.$ORG.ian.com:$PORT
 CHANNEL_NAME=mainchannel
 CORE_PEER_TLS_ENABLED=true
 
+sleep 5
 peer channel join -b mainchannel.block >&log.txt
 
 cat log.txt
