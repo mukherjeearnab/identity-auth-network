@@ -103,8 +103,10 @@ func (cc *Chaincode) readProfile(stub shim.ChaincodeStubInterface, params []stri
 		return shim.Error("1st argument must be a non-empty string")
 	}
 
+	key := "citizen-" + params[0]
+
 	// Get State of Profile with Key => params[0]
-	citizenProfileAsBytes, err := stub.GetState(params[0])
+	citizenProfileAsBytes, err := stub.GetState(key)
 	if err != nil {
 		jsonResp := "{\"Error\":\"Failed to get state for " + params[0] + "\"}"
 		return shim.Error(jsonResp)
