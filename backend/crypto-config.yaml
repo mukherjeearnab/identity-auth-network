@@ -1,0 +1,23 @@
+OrdererOrgs:
+    - Name: Orderer
+      Domain: ian.com
+      EnableNodeOUs: true
+      Specs:
+          - Hostname: orderer
+
+PeerOrgs:
+    - Name: Citizen
+      Domain: citizen.ian.com
+      EnableNodeOUs: true
+      Template:
+          Count: 1
+      Users:
+          Count: 1
+
+    - Name: IdentityAuthority
+      Domain: identityauthority.ian.com
+      EnableNodeOUs: true
+      Template:
+          Count: 1
+      Users:
+          Count: 1

@@ -1,0 +1,113 @@
+version: "2"
+
+volumes:
+    orderer.ian.com:
+    peer0.citizen.ian.com:
+    peer0.identityauthority.ian.com:
+    caCitizen:
+    caIdentityAuthority:
+
+networks:
+    iannet:
+
+services:
+    orderer.ian.com:
+        extends:
+            file: base/docker-compose-base.yaml
+            service: orderer.ian.com
+        container_name: orderer.ian.com
+        networks:
+            - iannet
+
+    peer0.citizen.ian.com:
+        container_name: peer0.citizen.ian.com
+        extends:
+            file: base/docker-compose-base.yaml
+            service: peer0.citizen.ian.com
+        networks:
+            - iannet
+        depends_on:
+            - couchdb.peer0.citizen.ian.com
+
+    peer0.identityauthority.ian.com:
+        container_name: peer0.identityauthority.ian.com
+        extends:
+            file: base/docker-compose-base.yaml
+            service: peer0.identityauthority.ian.com
+        networks:
+            - iannet
+        depends_on:
+            - couchdb.peer0.identityauthority.ian.com
+
+    caCitizen:
+        container_name: caCitizen
+        extends:
+            file: base/docker-compose-base.yaml
+            service: caCitizen
+        networks:
+            - iannet
+
+    caIdentityAuthority:
+        container_name: caIdentityAuthority
+        extends:
+            file: base/docker-compose-base.yaml
+            service: caIdentityAuthority
+        networks:
+            - iannet
+
+    couchdb.peer0.citizen.ian.com:
+        container_name: couchdb.peer0.citizen.ian.com
+        image: hyperledger/fabric-couchdb
+        environment:
+            - COUCHDB_USER=admin
+            - COUCHDB_PASSWORD=adminpw
+        ports:
+            - "15984:5984"
+        networks:
+            - iannet
+
+    couchdb.peer0.identityauthority.ian.com:
+        container_name: couchdb.peer0.identityauthority.ian.com
+        image: hyperledger/fabric-couchdb
+        environment:
+            - COUCHDB_USER=admin
+            - COUCHDB_PASSWORD=adminpw
+        ports:
+            - "16984:5984"
+        networks:
+            - iannet
+
+    cli:
+        container_name: cli
+        image: hyperledger/fabric-tools:$IMAGE_TAG
+        tty: true
+        stdin_open: true
+        environment:
+            - GOPATH=/opt/gopath
+            - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+            #- FABRIC_LOGGING_SPEC=DEBUG
+            - FABRIC_LOGGING_SPEC=INFO
+            - CORE_PEER_ID=cli
+            - CORE_PEER_ADDRESS=peer0.citizen.ian.com:7051
+            - CORE_PEER_LOCALMSPID=CitizenMSP
+            - CORE_PEER_TLS_ENABLED=true
+            - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/citizen.ian.com/peers/peer0.citizen.ian.com/tls/server.crt
+            - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/citizen.ian.com/peers/peer0.citizen.ian.com/tls/server.key
+            - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/citizen.ian.com/peers/peer0.citizen.ian.com/tls/ca.crt
+            - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/citizen.ian.com/users/Admin@citizen.ian.com/msp
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+        command: /bin/bash
+        volumes:
+            - /var/run/:/host/var/run/
+            - ./../chaincode/:/opt/gopath/src/
+            - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+            - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+            - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+        depends_on:
+            - orderer.ian.com
+            - peer0.citizen.ian.com
+            - peer0.identityauthority.ian.com
+            - caCitizen
+            - caIdentityAuthority
+        networks:
+            - iannet
