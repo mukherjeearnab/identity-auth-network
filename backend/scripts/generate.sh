@@ -33,3 +33,6 @@ sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-base.yaml
 cd $CURRENT_DIR
 cd ./scripts
 bash ccp-generate.sh
+
+# Install Go dependencies
+bash go-mod.sh
