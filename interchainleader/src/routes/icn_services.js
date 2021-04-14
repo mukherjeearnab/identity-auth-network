@@ -20,10 +20,12 @@ router.post("/icn/ian/get/citizen/", rsaDecryptMiddleware, async (req, res) => {
 
     let payload = await rsaEncryptSend(process.env.CLIENT, {
         icl: process.env.CLIENT,
-        body: req.body.message.message,
+        body: req.body.message.message.body,
     });
 
-    const response = await fetch(`http://${process.env.CLIENT}/api/icn/get/citizen`, {
+    console.log("ICN-PAYLOAD", payload);
+
+    const response = await fetch(`http://${process.env.CLIENT}/icn/get/citizen`, {
         method: "POST",
         body: JSON.stringify({ payload }),
         headers: { "Content-Type": "application/json" },
@@ -31,15 +33,15 @@ router.post("/icn/ian/get/citizen/", rsaDecryptMiddleware, async (req, res) => {
 
     let resp = await response.json();
 
-    resp = rsaDecrypt(resp);
+    resp = rsaDecrypt(resp.response);
 
     payload = await rsaEncryptReturn(req.body.payload.pubkey, {
         icl: process.env.NETWORK_NAME,
-        body: resp.message,
+        body: resp.message.body,
     });
 
     // Debugging Response
-    console.log("API/ICN/TEST-S", resp);
+    console.log("ICN-RESPONSE", resp);
 
     if (!resp.verified) {
         res.status(400).send({ response: "ERROR! ICN Error!" });
