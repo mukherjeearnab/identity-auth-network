@@ -13,5 +13,7 @@ app.use(function (req, res, next) {
 
 app.use(require("./routes/auth"));
 app.use(require("./routes/identity_cc"));
+app.use(require("./routes/icn"));
+app.use(require("./routes/icn_services"));
 
-app.listen(3000, console.log);
+app.listen(3003, console.log);
